@@ -163,7 +163,7 @@ describe("Central de atendimento ao cliente TAT", () => {
 
     it.only('Verifica se o telefone é obrigatório e exibe mensagem', () => {
         cy.get('#firstName').type('Teste de nome')
-        cy.get('#lastName').type('Teste sobrenome')
+        cy.get('#lastNamedsds').type('Teste sobrenome')
         cy.get('#email').type('teste')
         cy.get('#open-text-area').type('Teste feedback')
         cy.get('#phone-checkbox').check()
