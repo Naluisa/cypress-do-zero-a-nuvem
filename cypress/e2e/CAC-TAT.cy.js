@@ -172,16 +172,60 @@ describe("Central de atendimento ao cliente TAT", () => {
         cy.get('.error').should('be.visible')
     })
 
-    it.only('exibe mensagem por 3 segundos', function () {
+    it('exibe mensagem por 3 segundos', function () {
         cy.clock()
         cy.get('#firstName').type('Teste de nome')
         cy.get('#lastName').type('Teste sobrenome')
         cy.get('#email').type('teste@teste.com')
         cy.get('#open-text-area').type('Teste feedback')
-        cy.tick(2)
+        cy.tick(3000)
         cy.get('.button').click()
-        
+
         cy.get('.success').should('be.visible')
 
+    })
+
+    it('exibe e oculta as mensagens de sucesso e erro usando .invoke()', () => {
+        cy.get('.success')
+            .should('not.be.visible')
+            .invoke('show')
+            .should('be.visible')
+            .and('contain', 'Mensagem enviada com sucesso.')
+            .invoke('hide')
+            .should('not.be.visible')
+        cy.get('.error')
+            .should('not.be.visible')
+            .invoke('show')
+            .should('be.visible')
+            .and('contain', 'Valide os campos obrigatórios!')
+            .invoke('hide')
+            .should('not.be.visible')
+    })
+
+    it('preenche o campo da área de texto usando o comando invoke', () => {
+        cy.get('#firstName').type('Teste de nome')
+        cy.get('#lastName').type('Teste sobrenome')
+        cy.get('#email').type('teste@teste.com')
+        cy.get('#open-text-area').invoke('val', 'Teste feedback').should('have.value', 'Teste feedback')
+        cy.get('.button').click()
+
+        cy.get('.success').should('be.visible')
+    })
+
+    it('faz uma requisição HTTP', () => {
+        cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+            .as('getRequest')
+            .its('status').should('be.equal', 200)
+
+        cy.get('@getRequest')
+            .its('statusText').should('be.equal', 'OK')
+
+        cy.get('@getRequest')
+            .its('body').should('include', 'CAC TAT')
+    })
+
+     it('encontre o gato escondido', () => {
+        cy.get('#cat').invoke('show').should('be.visible')
+        cy.get('#subtitleg').invoke('text', 'Eu amo gatos')
     })
 })
