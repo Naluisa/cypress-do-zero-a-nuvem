@@ -178,7 +178,7 @@ describe("Central de atendimento ao cliente TAT", () => {
         cy.get('#lastName').type('Teste sobrenome')
         cy.get('#email').type('teste@teste.com')
         cy.get('#open-text-area').type('Teste feedback')
-        cy.tick(1)
+        cy.tick(2)
         cy.get('.button').click()
         
         cy.get('.success').should('be.visible')
