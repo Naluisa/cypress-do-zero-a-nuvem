@@ -161,7 +161,7 @@ describe("Central de atendimento ao cliente TAT", () => {
         cy.contains('h1', 'CAC TAT - Política de Privacidade').should('be.visible')
     })
 
-    it.only('Verifica se o telefone é obrigatório e exibe mensagem', () => {
+    it('Verifica se o telefone é obrigatório e exibe mensagem', () => {
         cy.get('#firstName').type('Teste de nome')
         cy.get('#lastName').type('Teste sobrenome')
         cy.get('#email').type('teste')
@@ -170,5 +170,18 @@ describe("Central de atendimento ao cliente TAT", () => {
         cy.get('.button').click()
 
         cy.get('.error').should('be.visible')
+    })
+
+    it.only('exibe mensagem por 3 segundos', function () {
+        cy.clock()
+        cy.get('#firstName').type('Teste de nome')
+        cy.get('#lastName').type('Teste sobrenome')
+        cy.get('#email').type('teste@teste.com')
+        cy.get('#open-text-area').type('Teste feedback')
+        cy.tick(1)
+        cy.get('.button').click()
+        
+        cy.get('.success').should('be.visible')
+
     })
 })
